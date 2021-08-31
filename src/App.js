@@ -8,10 +8,10 @@ function App() {
   const formHandler = (data) => {
     // Salvar no DB
     console.log([
-      'Salver no DB',
+      'Salvar no DB',
       data
     ]);
-    debugger;
+    
   }
 
 
