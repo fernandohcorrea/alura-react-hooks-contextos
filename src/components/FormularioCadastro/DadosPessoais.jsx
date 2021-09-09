@@ -1,9 +1,10 @@
 import { Button, TextField, FormControlLabel, Switch } from '@material-ui/core';
 import { NavigateNext } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import FormValidationsContext from '../../contexts/FormValidationsContext';
 
-function DadosPessoais({onSubmit, validations, ...props}) {
-   
+function DadosPessoais({onSubmit, ...props}) {
+    const validations = useContext(FormValidationsContext);
     const [nome, setNome] = useState("");
     const [sobrenome, setSobrenome] = useState("");
     const [cpf, setCPF] = useState("");

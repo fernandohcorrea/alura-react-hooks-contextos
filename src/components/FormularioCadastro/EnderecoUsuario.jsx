@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
+import FormValidationsContext from '../../contexts/FormValidationsContext';
 
-function EnderecoUsuario({onSubmit, validations, ...props}) {
-
+function EnderecoUsuario({onSubmit, ...props}) {
+    const validations = useContext(FormValidationsContext);
     const [cep, setCep] = useState("");
     const [logradouro, setLogradouro] = useState("");
     const [numero, setNumero] = useState("");
     const [uf, setUf] = useState("");
     const [cidade, setCidade] = useState("");
     const [erros, setErros] = useState({
-        cpf: {
+        cep: {
           valid: true,
           helperText: null
         }

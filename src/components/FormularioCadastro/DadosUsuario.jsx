@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, TextField } from '@material-ui/core';
 import { NavigateNext } from "@material-ui/icons";
+import FormValidationsContext from "../../contexts/FormValidationsContext";
 
 
-function DadosUsuario({onSubmit, validations, ...props})
+function DadosUsuario({onSubmit, ...props})
 {
+    const validations = useContext(FormValidationsContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [erros, setErros] = useState({

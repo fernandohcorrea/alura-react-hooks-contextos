@@ -4,12 +4,14 @@ import DadosPessoais from './DadosPessoais';
 import DadosUsuario from './DadosUsuario';
 import EnderecoUsuario from './EnderecoUsuario';
 import validations from '../../validacoes/cadastro';
+import FormValidationsContext from '../../contexts/FormValidationsContext';
 
 
 function FormularioCadastro({onSubmit, ...props}) {
 
   const [etapaAtual, setEtapaAtual] = useState(0);
   const [dataForms, setDataform] = useState({});
+
 
   useEffect(()=>{
     if (etapaAtual === 3 ){
@@ -30,13 +32,13 @@ function FormularioCadastro({onSubmit, ...props}) {
 
     switch (step) {
       case 0:
-        return <DadosUsuario onSubmit={submitHandler} validations={validations} />;
+        return <DadosUsuario onSubmit={submitHandler} />;
 
       case 1:
-        return <DadosPessoais onSubmit={submitHandler} validations={validations} />;
+        return <DadosPessoais onSubmit={submitHandler} />;
       
       case 2:
-        return <EnderecoUsuario onSubmit={submitHandler} validations={validations} />;
+        return <EnderecoUsuario onSubmit={submitHandler} />;
 
       case 3:
         return (
@@ -52,21 +54,23 @@ function FormularioCadastro({onSubmit, ...props}) {
 
   return (
     <>
-      <Stepper activeStep={etapaAtual}>
-        <Step>
-          <StepLabel>Login</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Dados pessoais</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Endereço</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Finalização</StepLabel>
-        </Step>
-      </Stepper>
-      {switchStepForm(etapaAtual)}
+      <FormValidationsContext.Provider value={validations}>
+        <Stepper activeStep={etapaAtual}>
+          <Step>
+            <StepLabel>Login</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Dados pessoais</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Endereço</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Finalização</StepLabel>
+          </Step>
+        </Stepper>
+        {switchStepForm(etapaAtual)}
+      </FormValidationsContext.Provider>
     </>
   );
 }
