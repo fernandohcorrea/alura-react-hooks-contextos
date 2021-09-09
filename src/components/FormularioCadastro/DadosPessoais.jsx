@@ -2,7 +2,7 @@ import { Button, TextField, FormControlLabel, Switch } from '@material-ui/core';
 import { NavigateNext } from '@material-ui/icons';
 import React, { useState } from 'react';
 
-function DadosPessoais({onSubmit, ...props}) {
+function DadosPessoais({onSubmit, validations, ...props}) {
    
     const [nome, setNome] = useState("");
     const [sobrenome, setSobrenome] = useState("");
@@ -28,19 +28,11 @@ function DadosPessoais({onSubmit, ...props}) {
         setCPF(ev.target.value)
     }
 
-    const onBlurCPF = (ev) => {
-      let value = ev.target.value;
-      
-      if(value.length < 11){
-        setErros({cpf: {
-          valid: false,
-          helperText: 'Cpf está inválido'
-        }});
-        return false;
-      } 
-
-      setErros({cpf: { valid: true, helperText: null}});
-      
+    const validateForm = (ev) => {
+        const {name, value} = ev.target;
+        const validation = {...erros}
+        validation[name] = validations[name](value);
+        setErros(validation);
     }
 
     const onChangePromocoes = (ev) => {
@@ -51,25 +43,40 @@ function DadosPessoais({onSubmit, ...props}) {
         setNovidade(ev.target.checked);
     }
 
+    const chkFormErrors = () => {
+        let ret = true;
+        for (const key in erros) {
+            if (Object.hasOwnProperty.call(erros, key)) {
+                if ( !erros[key].valid ){
+                    return false;
+                }
+            }
+        }
+        return ret;
+    }
+
     const onFormSubmit = (ev) => {
         ev.preventDefault();
-
-        onSubmit({nome, sobrenome, cpf, promocao, novidade});
+        if (chkFormErrors()){
+            onSubmit({nome, sobrenome, cpf, promocao, novidade});
+        }
     }
 
     return (
         <form onSubmit={onFormSubmit}>
-            <TextField margin="normal" value={nome} id="noneId" label="Nome" variant="outlined" onChange={onChangeNome} fullWidth />
-            <TextField margin="normal" value={sobrenome} id="sobrenome" label="Sobrenome" variant="outlined" onChange={onChangeSobrenome} fullWidth />
-            <TextField 
+            <TextField required margin="normal" value={nome} id="noneId" label="Nome" variant="outlined" onChange={onChangeNome} fullWidth />
+            <TextField required margin="normal" value={sobrenome} id="sobrenome" label="Sobrenome" variant="outlined" onChange={onChangeSobrenome} fullWidth />
+            <TextField required 
               margin="normal"
               value={cpf}
               id="cpfId"
               label="CPF"
+              name="cpf"
               variant="outlined"
               onChange={onChangeCPF}
-              onBlur={onBlurCPF}
-              error={!erros.cpf.valid} helperText={erros.cpf.helperText}
+              onBlur={validateForm}
+              error={!erros.cpf.valid}
+              helperText={erros.cpf.helperText}
               fullWidth />
             <FormControlLabel label="Promoções" control={
                 <Switch id="promocoesID" checked={promocao} label="Promoções" onChange={onChangePromocoes} value={promocao} />

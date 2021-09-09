@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import DadosPessoais from './DadosPessoais';
 import DadosUsuario from './DadosUsuario';
 import EnderecoUsuario from './EnderecoUsuario';
+import validations from '../../validacoes/cadastro';
 
 
 function FormularioCadastro({onSubmit, ...props}) {
@@ -29,13 +30,13 @@ function FormularioCadastro({onSubmit, ...props}) {
 
     switch (step) {
       case 0:
-        return <DadosUsuario onSubmit={submitHandler} />;
+        return <DadosUsuario onSubmit={submitHandler} validations={validations} />;
 
       case 1:
-        return <DadosPessoais onSubmit={submitHandler}/>;
+        return <DadosPessoais onSubmit={submitHandler} validations={validations} />;
       
       case 2:
-        return <EnderecoUsuario onSubmit={submitHandler} />;
+        return <EnderecoUsuario onSubmit={submitHandler} validations={validations} />;
 
       case 3:
         return (
