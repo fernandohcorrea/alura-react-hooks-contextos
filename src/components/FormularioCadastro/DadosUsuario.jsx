@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button, TextField } from '@material-ui/core';
 import { NavigateNext } from "@material-ui/icons";
 import FormValidationsContext from "../../contexts/FormValidationsContext";
+import useErrors from "../../hooks/useErrors";
 
 
 function DadosUsuario({onSubmit, ...props})
@@ -9,12 +10,7 @@ function DadosUsuario({onSubmit, ...props})
     const validations = useContext(FormValidationsContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [erros, setErros] = useState({
-        password: {
-          valid: true,
-          helperText: null
-        }
-      });
+    const [erros, validateForm, chkFormErrors] = useErrors(validations);
 
     const onChangeEmail = (ev) => {
         setEmail(ev.target.value)
@@ -22,25 +18,6 @@ function DadosUsuario({onSubmit, ...props})
 
     const onChangePassword = (ev) => {
         setPassword(ev.target.value);
-    }
-
-    const validateForm = (ev) => {
-        const {name, value} = ev.target;
-        const validation = {...erros}
-        validation[name] = validations[name](value);
-        setErros(validation);
-    }
-
-    const chkFormErrors = () => {
-        let ret = true;
-        for (const key in erros) {
-            if (Object.hasOwnProperty.call(erros, key)) {
-                if ( !erros[key].valid ){
-                    return false;
-                }
-            }
-        }
-        return ret;
     }
 
     const onFormSubmit = (ev) => {

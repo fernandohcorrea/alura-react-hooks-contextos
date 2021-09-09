@@ -53,7 +53,6 @@ function FormularioCadastro({onSubmit, ...props}) {
   }
 
   return (
-    <>
       <FormValidationsContext.Provider value={validations}>
         <Stepper activeStep={etapaAtual}>
           <Step>
@@ -71,7 +70,6 @@ function FormularioCadastro({onSubmit, ...props}) {
         </Stepper>
         {switchStepForm(etapaAtual)}
       </FormValidationsContext.Provider>
-    </>
   );
 }
 

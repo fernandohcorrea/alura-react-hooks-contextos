@@ -1,5 +1,5 @@
 import React from 'react';
-
-const FormValidationsContext = React.createContext();
+import validations from '../validacoes/cadastro';
+const FormValidationsContext = React.createContext(validations);
 
 export default FormValidationsContext;

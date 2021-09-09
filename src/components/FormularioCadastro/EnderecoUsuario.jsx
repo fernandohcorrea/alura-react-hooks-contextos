@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import FormValidationsContext from '../../contexts/FormValidationsContext';
+import useErrors from '../../hooks/useErrors';
 
 function EnderecoUsuario({onSubmit, ...props}) {
     const validations = useContext(FormValidationsContext);
@@ -9,12 +10,7 @@ function EnderecoUsuario({onSubmit, ...props}) {
     const [numero, setNumero] = useState("");
     const [uf, setUf] = useState("");
     const [cidade, setCidade] = useState("");
-    const [erros, setErros] = useState({
-        cep: {
-          valid: true,
-          helperText: null
-        }
-    });
+    const [erros, validateForm, chkFormErrors] = useErrors(validations);
 
 
     const onChangeCep = (ev) => {
@@ -35,25 +31,6 @@ function EnderecoUsuario({onSubmit, ...props}) {
 
     const onChangeCidade = (ev) => {
         setCidade(ev.target.value)
-    }
-
-    const validateForm = (ev) => {
-        const {name, value} = ev.target;
-        const validation = {...erros}
-        validation[name] = validations[name](value);
-        setErros(validation);
-    }
-
-    const chkFormErrors = () => {
-        let ret = true;
-        for (const key in erros) {
-            if (Object.hasOwnProperty.call(erros, key)) {
-                if ( !erros[key].valid ){
-                    return false;
-                }
-            }
-        }
-        return ret;
     }
 
     const onFormSubmit = (ev) => {
